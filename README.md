@@ -1,97 +1,43 @@
-<a name="README"></a>
-[![robolectric logo](https://raw.githubusercontent.com/robolectric/robolectric/master/images/robolectric-horizontal.png)](https://robolectric.org)
+# Android APK Parser & Package Manager Inspector
 
-[![Build Status](https://github.com/robolectric/robolectric/actions/workflows/tests.yml/badge.svg)](https://github.com/robolectric/robolectric/actions?query=workflow%3Atests)
-[![GitHub release](https://img.shields.io/github/release/robolectric/robolectric.svg?maxAge=60)](https://github.com/robolectric/robolectric/releases)
+A lightweight, fast, and comprehensive client-side Android APK package reader and inspector.
 
-Robolectric is the industry-standard unit testing framework for Android. With Robolectric, your tests run in a simulated Android environment inside a JVM, without the overhead and flakiness of an emulator. Robolectric tests routinely run 10x faster than those on cold-started emulators.
+## Features
 
-Robolectric supports running unit tests for *15* different versions of Android, ranging from M (API level 23) to Cinnamon Bun (API level 37).
+- **Package Manager Equivalent (`PackageInfo`)**:
+  - Package name, version code, and version name
+  - Application flags (`FLAG_DEBUGGABLE`, `FLAG_ALLOW_BACKUP`, `FLAG_USES_CLEARTEXT_TRAFFIC`, `FLAG_HARDWARE_ACCELERATED`, `FLAG_LARGE_HEAP`)
+  - Target SDK, Minimum SDK, and Compile SDK compatibility matrix
+  - Activities, Services, Broadcast Receivers, and Content Providers
+  - Intent filters (Actions, Categories, URI schemes, and hosts)
+  - Requested and declared permissions with protection levels (`normal`, `dangerous`, `signature`, `system`)
+- **Binary Android Manifest (`AXML`) Decoder**:
+  - Full client-side decoding of binary XML chunk tables, string pools, resource IDs, and namespace scopes
+  - Colorized XML syntax viewer with line numbers and search filtering
+- **APK Signatures & Integrity**:
+  - Android signature schemes audit: v1 (JAR signing), v2 (APK Signing Block), v3 (Key Rotation), and v4
+  - X.509 certificate parsing with Subject/Issuer DN and SHA-256, SHA-1, and MD5 fingerprints
+- **DEX Bytecode & MultiDex Analysis**:
+  - Classes and estimated methods count calculation against the 64k limit
+- **Resource & Archive Explorer**:
+  - Analysis of resources (`res/`), compiled table (`resources.arsc`), assets (`assets/`), and native libraries (`lib/`)
+  - Size impact and compression ratios
+- **Export Capabilities**:
+  - Export full JSON audit report
+  - Export decoded `AndroidManifest.xml`
 
-## Usage
+## Development
 
-To use Robolectric in your project, simply add the necessary dependencies to your module's `build.gradle`/`build.gradle.kts` file:
+```bash
+# Install dependencies
+npm install
 
-```groovy
-testImplementation("junit:junit:4.13.2")
-testImplementation("org.robolectric:robolectric:4.17")
-testImplementation("androidx.test.ext:junit:1.3.0")
-```
+# Start development server
+npm run dev
 
-Then you can write your tests using Robolectric, like the following example:
+# Build production bundle
+npm run build
 
-```java
-@RunWith(AndroidJUnit4.class)
-public class MyActivityTest {
-  @Test
-  public void clickingButton_shouldChangeMessage() {
-    try (ActivityController<MyActivity> controller = Robolectric.buildActivity(MyActivity.class)) {
-      controller.setup(); // Moves the Activity to the RESUMED state
-      MyActivity activity = controller.get();
-
-      activity.findViewById(R.id.button).performClick();
-      assertEquals(((TextView) activity.findViewById(R.id.text)).getText(), "Robolectric Rocks!");
-    }
-  }
-}
-```
-
-For more information about how to install and use Robolectric in your project, extend its functionality, and join the community of contributors, you can visit [robolectric.org](https://robolectric.org).
-
-## Building and Contributing
-
-Robolectric is built using Gradle. Both Android Studio and IntelliJ can import the top-level `build.gradle.kts` file and will automatically generate their project files from it.
-
-To get Robolectric up and running on your machine, check out
-[this guide](https://robolectric.org/building-robolectric/).
-
-To get a high-level overview of Robolectric's architecture, check out
-[robolectric.org](https://robolectric.org/architecture).
-
-## Development model
-
-Robolectric is actively developed in several locations. The primary location is
-this GitHub repository, which is considered the *source-of-truth* for
-Robolectric code. It is where contributions from the broader Android developer
-community occur. There is also an active development tree of Robolectric
-internally at Google, where contributions from first-party Android developers
-occur. By having a development tree of Robolectric internally at Google, it
-enables first-party Android developers to more efficiently make contributions
-to Robolectric. This tree is synced directly to the [`google`
-branch](https://github.com/robolectric/robolectric/tree/google) every
-time a change occurs using the [`Copybara`](https://github.com/google/copybara)
-code sync tool. Bidirectional merges of this branch and the
-[`master`](https://github.com/robolectric/robolectric/tree/master) branch occur
-regularly.
-
-Robolectric also has usage in the Android platform via the
-[external/robolectric](https://cs.android.com/android/platform/superproject/main/+/main:external/robolectric/)
-repo project. Contributions to this source tree are typically related to new
-SDK support and evolving platform APIs. Changes from this branch are upstreamed
-to the internal Robolectric tree at Google, which eventually propagate to the
-GitHub branches.
-
-Although complex, this distributed development model enables Android developers
-in different environments to use and contribute to Robolectric, while allowing
-changes to eventually make their way to public Robolectric releases.
-
-> [!TIP]
-> You can trigger the
-> [`sync_google_master`](https://github.com/robolectric/robolectric/actions/workflows/sync_google_master.yml)
-> workflow to create a PR to sync the `google` branch into `master`.
-
-## Using Snapshots
-
-If you would like to live on the bleeding edge, you can try running against a snapshot build. Keep in mind that snapshots represent the most recent changes on the `master` and may contain bugs.
-
-### `build.gradle`
-
-```groovy
-repositories {
-    maven { url "https://central.sonatype.com/repository/maven-snapshots/" }
-}
-
-dependencies {
-    testImplementation "org.robolectric:robolectric:4.18-SNAPSHOT"
-}
+# Run type check and lint
+npm run lint
 ```

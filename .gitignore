@@ -1,3 +1,8 @@
+# Node & Web
+node_modules/
+dist/
+.aistudio/
+
 # Eclipse
 .classpath
 .project

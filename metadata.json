@@ -1,0 +1,8 @@
+{
+  "name": "APK Parser",
+  "description": "Fast and comprehensive Android APK package inspector, manifest parser, resource explorer, and security auditor in React.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
