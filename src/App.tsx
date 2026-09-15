@@ -9,6 +9,7 @@ import {
   FolderArchive,
   ChevronRight,
   Sparkles,
+  Code2,
 } from 'lucide-react';
 import { ApkMetadata } from './types/apk';
 import { SAMPLE_APKS } from './utils/sampleData';
@@ -22,6 +23,7 @@ import { PermissionsTab } from './components/PermissionsTab';
 import { ResourcesTab } from './components/ResourcesTab';
 import { SignaturesTab } from './components/SignaturesTab';
 import { ArchiveTab } from './components/ArchiveTab';
+import { JavaLibraryTab } from './components/JavaLibraryTab';
 import { ExportModal } from './components/ExportModal';
 
 type TabId =
@@ -31,7 +33,8 @@ type TabId =
   | 'permissions'
   | 'resources'
   | 'signatures'
-  | 'archive';
+  | 'archive'
+  | 'java-api';
 
 export default function App() {
   const [currentApk, setCurrentApk] = useState<ApkMetadata>(SAMPLE_APKS[0]);
@@ -210,6 +213,23 @@ export default function App() {
               {currentApk.files.length}
             </span>
           </button>
+
+          <button
+            id="tab-java-api"
+            type="button"
+            onClick={() => setActiveTab('java-api')}
+            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium transition-all flex-shrink-0 cursor-pointer ${
+              activeTab === 'java-api'
+                ? 'bg-emerald-600 text-white shadow-md shadow-emerald-950'
+                : 'text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/40 bg-emerald-950/20 border border-emerald-500/20'
+            }`}
+          >
+            <Code2 className="w-3.5 h-3.5" />
+            <span>Java Library & API</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-mono">
+              Robolectric
+            </span>
+          </button>
         </div>
 
         {/* Active Tab Panel */}
@@ -223,6 +243,7 @@ export default function App() {
           {activeTab === 'resources' && <ResourcesTab apk={currentApk} />}
           {activeTab === 'signatures' && <SignaturesTab apk={currentApk} />}
           {activeTab === 'archive' && <ArchiveTab apk={currentApk} />}
+          {activeTab === 'java-api' && <JavaLibraryTab />}
         </div>
       </main>
 

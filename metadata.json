@@ -1,6 +1,6 @@
 {
-  "name": "APK Parser",
-  "description": "Fast and comprehensive Android APK package inspector, manifest parser, resource explorer, and security auditor in React.",
+  "name": "APK Parser Library",
+  "description": "Headless Android APK package parser and inspector powered by Robolectric runtime without test runners.",
   "requestFramePermissions": [],
   "majorCapabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
